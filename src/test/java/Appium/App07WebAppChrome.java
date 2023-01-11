@@ -20,17 +20,17 @@ public class App07WebAppChrome {
         DesiredCapabilities capabilities = new DesiredCapabilities();
 
         capabilities.setCapability(MobileCapabilityType.PLATFORM_NAME,"Android");
-        capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION,"11.0");
+        capabilities.setCapability(MobileCapabilityType.PLATFORM_VERSION,"12.0");
         capabilities.setCapability(MobileCapabilityType.DEVICE_NAME,"2VN5T18607005191");
         capabilities.setCapability(MobileCapabilityType.AUTOMATION_NAME,"UiAutomator2");
         capabilities.setCapability(MobileCapabilityType.BROWSER_NAME,"chrome");
         capabilities.setCapability(MobileCapabilityType.NEW_COMMAND_TIMEOUT,"60000");
-       capabilities.setCapability("chromeDriverExecutable","/Users/PC/IdeaProjects/MobileTest/src/driver/chromedriver.exe");
+       capabilities.setCapability("chromedriverExecutable","/Users/PC/IdeaProjects/MobileTest/src/driver/chromedriver.exe");
 
         AndroidDriver<MobileElement> driver =new AndroidDriver<MobileElement>(new URL("http://127.0.0.1:4723/wd/hub"),capabilities);
-        System.out.println(driver.getContext());
+        System.out.println(driver.getContext());//-->App acildiginda hangi turde oldugunu gosterir
 
-        //burda aplikasyonun hangi turleri oldugunu gorem icin getContextHandles() kullaniyoruz.
+        //burda aplikasyonun hangi turleri oldugunu gormek icin getContextHandles() kullaniyoruz.
         Set<String> butunturler = driver.getContextHandles();
         for (String tur: butunturler) {
             System.out.println(tur);
@@ -38,24 +38,28 @@ public class App07WebAppChrome {
                 driver.context(tur);
             }
         }
+        System.out.println(driver.getContext()+" Son hali");
 
 
         driver.get("https://www.amazon.com");
+        Thread.sleep(7000);
 
-        MobileElement homeScreenLogo = driver.findElementByAccessibilityId("Amazon");
+
+        MobileElement homeScreenLogo = driver.findElementByXPath("//a[@id='nav-logo-sprites']");
         assertTrue(homeScreenLogo.isDisplayed());
         System.out.println("Amazon ana sayfada oldugumuz dogrulandi...");
-        Thread.sleep(3000);
+        Thread.sleep(7000);
 
-        MobileElement singInButton = driver.findElementByAccessibilityId("Sign in ›");
+        MobileElement singInButton = driver.findElementByXPath("//a[@id='nav-logobar-greeting']");
         singInButton.click();
 
-        Thread.sleep(3000);
-        MobileElement welcomeText = driver.findElementByXPath("//android.widget.TextView[@text='Welcome']");
+        Thread.sleep(7000);
+        MobileElement welcomeText = driver.findElementByXPath("//div//h2[contains(text(),'Welcome')]");
         assertEquals("Welcome",welcomeText.getText());
         System.out.println("Sign in menusune girildi...");
 
         System.out.println("************ Finnish ************");
+        System.out.println();
 
 
 
